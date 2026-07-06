@@ -5,7 +5,7 @@ interface ApiError {
 }
 
 export async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: "no-store" });
 
   if (!response.ok) {
     let message = `Request failed with status ${response.status}`;

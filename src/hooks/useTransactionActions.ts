@@ -96,12 +96,36 @@ export function useRestoreTransaction() {
   });
 }
 
+type ManualMatchVariables = ManualMatchInput & { companyName: string };
+
 /** Manually match a transaction to a company. */
 export function useManualMatch() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: ManualMatchInput) => manualMatchAction(input),
-    onSuccess: () => invalidateReconciliation(queryClient),
+    mutationFn: ({ transactionId, companyId }: ManualMatchVariables) =>
+      manualMatchAction({ transactionId, companyId }),
+    onMutate: async ({ transactionId, companyId, companyName }) => {
+      await queryClient.cancelQueries({
+        queryKey: queryKeys.transactionsRoot,
+      });
+      const previous = queryClient.getQueriesData<Transaction[]>({
+        queryKey: queryKeys.transactionsRoot,
+      });
+      patchTransactionInCache(queryClient, transactionId, {
+        status: "matched",
+        matchedCompanyId: companyId,
+        matchedCompanyName: companyName,
+        matchMethod: "manual",
+        matchConfidence: 1.0,
+      });
+      return { previous };
+    },
+    onError: (_error, _input, context) => {
+      context?.previous.forEach(([key, data]) => {
+        queryClient.setQueryData(key, data);
+      });
+    },
+    onSettled: () => invalidateReconciliation(queryClient),
   });
 }

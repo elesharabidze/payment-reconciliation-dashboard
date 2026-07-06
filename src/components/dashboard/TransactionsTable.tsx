@@ -83,6 +83,7 @@ export interface TransactionsTableProps {
   onIgnore: (transactionId: string) => void;
   onRestore: (transactionId: string) => void;
   onManualMatch: (transactionId: string, companyId: string) => void;
+  resultCount?: number;
 }
 
 export function TransactionsTable({
@@ -103,13 +104,27 @@ export function TransactionsTable({
   onIgnore,
   onRestore,
   onManualMatch,
+  resultCount,
 }: TransactionsTableProps) {
   const showSkeleton = isLoading && !transactions;
   const isEmpty = !error && !showSkeleton && transactions?.length === 0;
+  const countLabel =
+    resultCount !== undefined ? `${resultCount} shown` : undefined;
 
   return (
     <Card className="overflow-hidden">
-      <div className="border-b border-slate-100 p-4">
+      <div className="border-b border-slate-100 px-4 pb-4 pt-4">
+        <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">
+              Transactions
+            </h2>
+            <p className="text-sm text-slate-500">
+              Bank payments for the selected month
+              {countLabel ? ` · ${countLabel}` : ""}
+            </p>
+          </div>
+        </div>
         <TableToolbar
           status={status}
           onStatusChange={onStatusChange}
@@ -121,7 +136,7 @@ export function TransactionsTable({
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse text-left">
-          <thead className="bg-slate-50">
+          <thead className="bg-slate-50/80">
             <tr>
               <SortHeader
                 label="Date"

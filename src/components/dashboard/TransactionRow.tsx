@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import type { Company, Transaction } from "@/lib/types/domain";
+import { cn } from "@/lib/utils/cn";
 import { formatDate } from "@/lib/utils/dates";
 import { formatGel } from "@/lib/utils/format";
 
@@ -11,6 +13,12 @@ import { StatusBadge } from "./StatusBadge";
 const METHOD_LABELS: Record<string, string> = {
   inn_exact: "INN match",
   manual: "Manual",
+};
+
+const ROW_ACCENT: Record<Transaction["status"], string> = {
+  matched: "border-l-emerald-400",
+  unmatched: "border-l-red-400",
+  ignored: "border-l-slate-300",
 };
 
 export function TransactionRow({
@@ -29,7 +37,12 @@ export function TransactionRow({
   onManualMatch: (transactionId: string, companyId: string) => void;
 }) {
   return (
-    <tr className="border-t border-slate-100 hover:bg-slate-50">
+    <tr
+      className={cn(
+        "border-l-[3px] border-t border-slate-100 transition-colors hover:bg-slate-50/70",
+        ROW_ACCENT[transaction.status],
+      )}
+    >
       <td className="whitespace-nowrap px-4 py-3 text-sm tabular-nums text-slate-600">
         {formatDate(transaction.entryDate)}
       </td>
@@ -89,37 +102,37 @@ export function TransactionRow({
                 }
                 disabled={busy}
               />
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 disabled={busy}
                 onClick={() => onIgnore(transaction.id)}
-                className="rounded-md px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 disabled:opacity-50"
+                className="px-2 py-1 text-xs"
               >
                 Ignore
-              </button>
+              </Button>
             </>
           ) : null}
 
           {transaction.status === "matched" ? (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               disabled={busy}
               onClick={() => onRestore(transaction.id)}
-              className="rounded-md px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 disabled:opacity-50"
+              className="px-2 py-1 text-xs"
             >
               Unmatch
-            </button>
+            </Button>
           ) : null}
 
           {transaction.status === "ignored" ? (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               disabled={busy}
               onClick={() => onRestore(transaction.id)}
-              className="rounded-md px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-100 disabled:opacity-50"
+              className="px-2 py-1 text-xs"
             >
               Restore
-            </button>
+            </Button>
           ) : null}
         </div>
       </td>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { StateMessage } from "@/components/ui/StateMessage";
 import type {
@@ -105,8 +106,8 @@ export function ExpectedVsActual({
             this month.
           </p>
         </div>
-        <button
-          type="button"
+        <Button
+          variant="secondary"
           disabled={rows.length === 0}
           onClick={() =>
             summary &&
@@ -115,10 +116,9 @@ export function ExpectedVsActual({
               buildCsv(summary.month, rows),
             )
           }
-          className="inline-flex w-fit items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50"
         >
           Export CSV
-        </button>
+        </Button>
       </div>
 
       {error ? (

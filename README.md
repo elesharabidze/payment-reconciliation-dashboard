@@ -8,6 +8,10 @@ compare to what each contract expects for a given month.
 Built with **Next.js 14 (App Router)**, **TypeScript** (strict), **Supabase**
 (Postgres), **Tailwind CSS**, **TanStack Query v5**, and **Zod**.
 
+**Live demo:** [payment-reconciliation-dashboard-eta.vercel.app](https://payment-reconciliation-dashboard-eta.vercel.app/)
+
+**Repository:** [github.com/elesharabidze/payment-reconciliation-dashboard](https://github.com/elesharabidze/payment-reconciliation-dashboard)
+
 ---
 
 ## Quick start
@@ -260,12 +264,16 @@ Auth was optional for this task.
 
 ## Deployment (Vercel)
 
+**Production:** [https://payment-reconciliation-dashboard-eta.vercel.app/](https://payment-reconciliation-dashboard-eta.vercel.app/)
+
 1. Push this repo to GitHub.
 2. Import it in Vercel (framework auto-detected as Next.js).
 3. Add the two environment variables (`NEXT_PUBLIC_SUPABASE_URL`,
-   `SUPABASE_SERVICE_ROLE_KEY`) in **Project Settings → Environment Variables**.
-4. Deploy. Make sure the two SQL files have been run against your Supabase
-   project.
+   `SUPABASE_SERVICE_ROLE_KEY`) in **Project Settings → Environment Variables**
+   for **Production** (and Preview if you want branch deploys to work).
+4. Redeploy after adding env vars — Vercel does not pick up new variables until
+   the next build.
+5. Make sure the two SQL files have been run against your Supabase project.
 
 ---
 

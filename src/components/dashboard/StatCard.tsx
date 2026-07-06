@@ -12,6 +12,13 @@ const ACCENT: Record<Tone, string> = {
   blue: "text-blue-600",
 };
 
+const BORDER: Record<Tone, string> = {
+  default: "border-l-slate-300",
+  green: "border-l-emerald-400",
+  red: "border-l-red-400",
+  blue: "border-l-blue-400",
+};
+
 export function StatCard({
   label,
   value,
@@ -26,7 +33,7 @@ export function StatCard({
   loading?: boolean;
 }) {
   return (
-    <Card className="p-4">
+    <Card className={cn("border-l-4 p-4", BORDER[tone])}>
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
         {label}
       </p>

@@ -34,7 +34,7 @@ export function ManualMatchControl({
       onChange={(event) => {
         if (event.target.value) onMatch(event.target.value);
       }}
-      className="max-w-[11rem] rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:opacity-50"
+      className="max-w-[12rem] cursor-pointer rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
     >
       <option value="" disabled>
         Match to…

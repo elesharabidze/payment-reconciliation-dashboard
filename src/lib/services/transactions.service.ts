@@ -170,7 +170,7 @@ export async function setManualMatch(
   transactionId: string,
   companyId: string,
 ): Promise<void> {
-  const { error } = await client
+  const { data, error } = await client
     .from("bank_transactions")
     .update({
       matched_company_id: companyId,
@@ -178,7 +178,11 @@ export async function setManualMatch(
       match_confidence: 1.0,
       status: "matched",
     })
-    .eq("id", transactionId);
+    .eq("id", transactionId)
+    .select("id");
 
   if (error) throw new ServiceError("Failed to set manual match", error);
+  if (!data || data.length === 0) {
+    throw new ServiceError("Transaction not found or could not be matched");
+  }
 }

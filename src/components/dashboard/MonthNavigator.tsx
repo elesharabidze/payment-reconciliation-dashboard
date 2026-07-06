@@ -32,40 +32,43 @@ export function MonthNavigator({
   }
 
   return (
-    <div className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white p-1">
-      <button
-        type="button"
-        onClick={goPrev}
-        disabled={!canGoPrev}
-        aria-label="Previous month"
-        className="rounded-md px-2 py-1.5 text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
-      >
-        ‹
-      </button>
-      {months.map((month) => (
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+      <span className="text-sm font-medium text-slate-500">Period</span>
+      <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200/80 bg-white p-1 shadow-sm">
         <button
-          key={month.key}
           type="button"
-          onClick={() => onSelect(month.key)}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-            month.key === selected
-              ? "bg-slate-900 text-white"
-              : "text-slate-600 hover:bg-slate-100",
-          )}
+          onClick={goPrev}
+          disabled={!canGoPrev}
+          aria-label="Previous month"
+          className="rounded-lg px-2.5 py-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-30"
         >
-          {month.label}
+          ‹
         </button>
-      ))}
-      <button
-        type="button"
-        onClick={goNext}
-        disabled={!canGoNext}
-        aria-label="Next month"
-        className="rounded-md px-2 py-1.5 text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
-      >
-        ›
-      </button>
+        {months.map((month) => (
+          <button
+            key={month.key}
+            type="button"
+            onClick={() => onSelect(month.key)}
+            className={cn(
+              "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+              month.key === selected
+                ? "bg-slate-900 text-white shadow-sm"
+                : "text-slate-600 hover:bg-slate-100",
+            )}
+          >
+            {month.label}
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={goNext}
+          disabled={!canGoNext}
+          aria-label="Next month"
+          className="rounded-lg px-2.5 py-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          ›
+        </button>
+      </div>
     </div>
   );
 }
